@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+.focused
+{
+  border: 1px solid red;
+}

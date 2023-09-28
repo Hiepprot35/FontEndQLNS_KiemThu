@@ -1,0 +1,9 @@
+.create_container
+{
+    display: flex;
+    justify-content: center;
+}
+
+.inputForm{
+    padding:10px;
+}
