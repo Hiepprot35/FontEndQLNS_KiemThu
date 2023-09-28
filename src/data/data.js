@@ -134,20 +134,6 @@ export const inputs = [
 
 ];
 export const inputs2 = [
-
-    {
-        id: 1,
-        name: "HoVaTen",
-        type: "text",
-        placeholder: "Họ và tên",
-        label: "Họ và tên",
-        pattern: "^[a-zA-ZáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹĐÁ\\s]+$",
-        viethoa: "true",
-        required: true,
-        value: "", // Giá trị mặc định
-    },
-
-
     {
         id: 2,
         name: "MaNhanVien",
@@ -159,6 +145,21 @@ export const inputs2 = [
         value: "", // Giá trị mặc định
 
     },
+    {
+        id: 1,
+        name: "HoVaTen",
+        type: "text",
+        placeholder: "Họ và tên",
+        label: "Họ và tên",
+        pattern: "^[a-zA-ZáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹĐÁ\\s]+$",
+        viethoa: "true",
+        required: true,
+        value: "", // Giá trị mặc định
+        readOnly:true
+    },
+
+
+   
 
 
 
@@ -207,7 +208,7 @@ export const DonNghiInput = [
         value: "", // Giá trị mặc định
         inputcac: "date"
 
-    },{
+    }, {
         id: 2,
         name: "NgayKetThuc",
         type: "text",
@@ -228,6 +229,134 @@ export const DonNghiInput = [
 
     },
 ]
+export const HopDongInput = [
+    {
+        id: 2,
+        name: "MaNhanVien",
+        type: "text",
+        placeholder: "Mã Nhân Viên",
+        label: "Mã Nhân Viên",
+        required: true,
+        pattern: "^[0-9]*$",
+        value: "", // Giá trị mặc định
+
+    },
+    {
+        id: 1,
+        name: "HoVaTen",
+        type: "text",
+        placeholder: "Họ và tên",
+        label: "Họ và tên",
+        pattern: "^[a-zA-ZáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹĐÁ\\s]+$",
+        viethoa: "true",
+        readOnly: true,
+        required: true,
+        value: "", // Giá trị mặc định
+    },
+
+
+
+
+    {
+        id: 3,
+        name: "LoaiHopDong",
+        type: "text",
+        placeholder: "Loại hợp đồng",
+        label: "Số CCCD",
+        required: true,
+        value: "", // Giá trị mặc định
+        length: "10"
+
+    },
+    {
+        id: 4,
+        name: "NgayKy",
+        type: "text",
+        placeholder: "Ngày ký",
+        label: "Ngày ký",
+        required: true,
+        value: "", // Giá trị mặc định
+        inputcac: "date"
+
+    },
+    {
+        id: 5,
+        name: "NgayBatDau",
+        type: "text",
+        placeholder: "Ngày bắt đầu",
+        label: "Ngày bắt đầu",
+        required: true,
+        value: "", // Giá trị mặc định
+        inputcac: "date"
+
+    },
+
+
+
+    {
+        id: 6,
+        name: "NgayKetThuc",
+        type: "text",
+        placeholder: "Ngày kết thúc",
+        label: "Ngày kết thúc",
+        required: true,
+        value: "", // Giá trị mặc định
+        inputcac: "date"
+
+    },
+    {
+        id: 7,
+        name: "DiaDiemLam",
+        type: "text",
+        placeholder: "Địa điểm làm việc",
+        label: "Địa điểm làm việc",
+        pattern: "^[a-zA-ZáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹĐÁ\\s]+$",
+        viethoa: "true",
+        required: true,
+        value: "", // Giá trị mặc định
+    },
+    {
+        id: 8,
+        name: "ChuyenMon",
+        type: "text",
+        placeholder: "Chuyên môn",
+        label: "Chuyên môn",
+        required: true,
+        value: ["Kế toán", "Kính doanh"], // Giá trị mặc định
+    },
+    {
+        id: 10,
+        name: "PhapNhan",
+        type: "text",
+        placeholder: "Pháp nhân",
+        label: "Pháp nhân",
+        required: true,
+        value: ["Quản lý", "Nhân viên", "Bảo vệ"], // Giá trị mặc định
+    },
+    {
+        id: 11,
+        name: "LuongCoBan",
+        type: "text",
+        placeholder: "Lương cơ bản",
+        label: "Lương cơ bản",
+        required: true,
+        pattern: "^[0-9]*$",
+        value: "", // Giá trị mặc định
+
+    },
+    {
+        id: 12,
+        name: "HeSoLuong",
+        type: "text",
+        placeholder: "Hệ số lương",
+        label: "Hệ số lương",
+        required: true,
+        pattern: "^[0-9]+(\.[0-9]+)?$",
+        value: "", // Giá trị mặc định
+
+    },
+
+];
 export const links = [
     {
         name: "Home",

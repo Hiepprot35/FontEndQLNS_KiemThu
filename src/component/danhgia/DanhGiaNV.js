@@ -14,13 +14,35 @@ export default function DanhGiaNhanVien() {
     const [focusedNoiDung, setFocusedNoiDung] = useState(false)
 
     const [values, setValues] = useState({
-        HoVaTen: "Đoàn Văn A",
+        HoVaTen: "",
         MaNhanVien: "",
         NgayQuyetDinh: "",
         PhanLoai: "",
         NoiDung: ""
 
     });
+    useEffect(() => { getUser() }, [values.MaNhanVien])
+
+    const getUser = async () => {
+        if (values.MaNhanVien) {
+
+
+            const URL = `${process.env.REACT_APP_API_HOST}/api/getUserByMaNV/${values.MaNhanVien}`
+            try {
+                const res = await fetch(URL)
+                const data = await res.json();
+                console.log(data)
+                if (res.status === 200) {
+
+                    setValues({ ...values, HoVaTen: data.HoVaTen })
+                }
+                
+            } catch (error) {
+                setValues({ ...values, HoVaTen: "" })
+            }
+        }
+
+    }
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     }

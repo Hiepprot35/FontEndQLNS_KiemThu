@@ -9,6 +9,7 @@ import Login from "./component/login/login";
 import DanhGiaNhanVien from "./component/danhgia/DanhGiaNV";
 import ThemCaLam from "./component/themcalam/themcalam";
 import ThemDonNghi from "./component/donnghi/themdonnghi";
+import HopDong from "./component/hopdong/HopDong";
 function App() {
   const { Token } = useToken()
   console.log(Token)
@@ -25,6 +26,7 @@ function App() {
               <Route path="/create-user" element={<CreateUser />} />
               <Route path={`/profile/:userID`} element={<ChangeUser />} />
               <Route path={`/danhgia`} element={<DanhGiaNhanVien />} />
+          <Route path="/hopdong" element={<HopDong />} />
 
             </Routes>
           </div>
