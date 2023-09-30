@@ -10,6 +10,8 @@ import DanhGiaNhanVien from "./component/danhgia/DanhGiaNV";
 import ThemCaLam from "./component/themcalam/themcalam";
 import ThemDonNghi from "./component/donnghi/themdonnghi";
 import HopDong from "./component/hopdong/HopDong";
+import XemHopDong from "./component/hopdong/XemHopDong";
+import SuaHopDong from "./component/hopdong/SuaHopDong";
 function App() {
   const { Token } = useToken()
   console.log(Token)
@@ -26,7 +28,9 @@ function App() {
               <Route path="/create-user" element={<CreateUser />} />
               <Route path={`/profile/:userID`} element={<ChangeUser />} />
               <Route path={`/danhgia`} element={<DanhGiaNhanVien />} />
-          <Route path="/hopdong" element={<HopDong />} />
+          <Route path="/themhopdong" element={<HopDong />} />
+          <Route path="/hopdong" element={<XemHopDong />} />
+          <Route path="/hopdong/:MaNV" element={<SuaHopDong />} />
 
             </Routes>
           </div>
@@ -40,7 +44,7 @@ function App() {
 
             <Header ></Header>
             <Routes>
-              <Route path="/" element={<ViewUsers />} />
+              <Route path="/" element={<ChangeUser userID={Token.Username}  />} />
               <Route path="/calamviec" element={<ThemCaLam />} />
               <Route path="/donnghi" element={<ThemDonNghi />} />
 
@@ -57,6 +61,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
+          <Route path="*" element={<Login />} />
 
         </Routes>
       </Router>

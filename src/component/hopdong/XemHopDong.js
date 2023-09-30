@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react"
 import blobtoBase64 from "../../function/BlobtoBase64"
-import { inputs } from "../../data/data";
-import './viewuser.css'
-export default function ViewUsers() {
-    document.title="Home"
+import { HopDongInput } from "../../data/data";
+export default function XemHopDong() {
     const [isLoading, setIsLoading] = useState(true)
     const [getUsers, setUsers] = useState("");
     const getUserfromData = async () => {
         try {
-            const res = await fetch(`${process.env.REACT_APP_API_HOST}/api/getAllUser`)
+            const res = await fetch(`${process.env.REACT_APP_API_HOST}/api/getAllHopDong`)
             const data = await res.json();
             setUsers(data)
         } catch (error) {
@@ -29,70 +27,71 @@ export default function ViewUsers() {
                     Loading
                 </div> :
                     <div className="container">
+                        <div>
+                            <div style={{display:"flex"}}>
+
+                                <a href="/themhopdong"><span className="spanLikeLogOut">Thêm hợp đồng</span></a>
+                            </div>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Mã nhân viên</th>
+                                    <th>Mã hợp đồng</th>
                                     {
-                                        inputs.map((e, i) => (
+                                        HopDongInput.map((e, i) => (
                                             <th key={i}>{e.name}</th>
                                         ))
                                     }
-                                    <th>Image</th>
                                     <th>Sửa</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 {
-                                    getUsers.length!=0  ? getUsers.map((e, i) => (
+                                    getUsers.length != 0 ? getUsers.map((e, i) => (
                                         <tr>
+                                            <td>
+                                                {e.HopDongID}
+                                            </td>
                                             <td>
                                                 {e.MaNhanVien}
                                             </td>
                                             <td>
                                                 {e.HoVaTen}
                                             </td>
+
                                             <td>
-                                                {e.NgaySinh}
+                                                {e.LoaiHopDong}
                                             </td>
                                             <td>
-                                                {e.CCCD}
+                                                {e.NgayKy}
                                             </td>
                                             <td>
-                                                {e.SDT}
+                                                {e.NgayBatDau}
                                             </td>
                                             <td>
-                                                {e.NoiSinh}
+                                                {e.NgayKetThuc}
                                             </td>
                                             <td>
-                                                {e.DiaChiThuongChu}
+                                                {e.DiaDiemLam}
                                             </td>
                                             <td>
-                                                {e.Email}
+                                                {e.ChuyenMon}
                                             </td>
                                             <td>
-                                                {e.NgayNhanChuc}
+                                                {e.PhapNhan}
+                                            </td>
+                                            <td>
+                                                {e.LuongCoBan}
                                             </td>
 
                                             <td>
-                                                {e.PhongBan}
+                                                {e.HeSoLuong}
                                             </td>
+
                                             <td>
-                                                {e.ChucVu}
+                                                <a href={`/hopdong/${e.MaNhanVien}`}>Sửa</a>
                                             </td>
-                                            <td>
-                                                {e.TrinhDoHocVan}
-                                            </td>
-                                            <td>
-                                                {e.GioiTinh}
-                                            </td>
-                                            <td>
-                                                <img style={{ width: "40px", height: "40px" }} src={blobtoBase64(e.Image)}></img>
-                                            </td>
-                                        <td>
-                                            <a href={`/profile/${e.MaNhanVien}`}>Sửa</a>
-                                        </td>
                                         </tr>
                                     )
                                     )

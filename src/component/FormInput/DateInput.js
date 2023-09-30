@@ -8,9 +8,11 @@ const DateInput = (props) => {
     const [focused, setFocused] = useState(false);
     const [test, setTest] = useState(null)
     const { label, errorMessage, onChange, id, placeholder, value, ...inputProps } = props;
-    const [date, setDate] = useState("")
-    const [month, setMonth] = useState("")
-    const [year, setYear] = useState("")
+    const dateParts = value.split("/");
+
+    const [date, setDateValue] = useState(value?`${dateParts[2]}`:"")
+    const [month, setMonthValue] = useState(value?`${dateParts[1]}`:"")
+    const [year, setYearValue] = useState(value?`${dateParts[0]}`:"")
     const [dateTime, setDateTime] = useState()
     const handleFocus = (e) => {
         setFocused(true);
@@ -18,66 +20,42 @@ const DateInput = (props) => {
     const ngay = "Ngày";
     const thang = "Tháng";
     const nam = "Năm"
- 
-    function isDateValid(date, bien1, bien2, bien, check) {
+
+    function isDateValid(data, bien1, bien2, bien) {
         if (focused) {
+            if (data) {
+                if (bien == "Ngày") {
+                    if (!validatorFunction.isDay(data)) {
+                        if (!validatorFunction.isNumeric(data)
+                        ) {
+                            return `${bien} chứa kí tự không hợp lệ. Kí tự phải là số`
+                        }
+                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;
+                    }
+                }
+                else if (bien == "Tháng") {
+                    if (!validatorFunction.isMonth(data)) {
 
-
-            if (date) {
-
-                if (check == 1) {
-
-                    if (!validatorFunction.isDay(date)) {
-
-                        if (!validatorFunction.isNumeric(date)
+                        if (!validatorFunction.isNumeric(data)
                         ) {
 
                             return `${bien} chứa kí tự không hợp lệ. Kí tự phải là số`
-
                         }
+                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;   }  }
+                else if (bien == "Năm") {
+                    if (!validatorFunction.isYear(data)) {
 
-                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;
-
-                    }
-
-                }
-                else if (check == 2) {
-                    if (!validatorFunction.isMonth(date)) {
-
-                        if (!validatorFunction.isNumeric(date)
+                        if (!validatorFunction.isNumeric(data)
                         ) {
-
                             return `${bien} chứa kí tự không hợp lệ. Kí tự phải là số`
-
                         }
-
-                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;
-
-                    }
-                }
-                else if (check == 3) {
-                    if (!validatorFunction.isYear(date)) {
-
-                        if (!validatorFunction.isNumeric(date)
-                        ) {
-
-                            return `${bien} chứa kí tự không hợp lệ. Kí tự phải là số`
-
-                        }
-
-                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;
-
-                    }
-                    // Nếu không có lỗi, trả về null
-                }
-            }
+                        return `${bien} không hợp lệ. Lớn hơn ${bien1} và nhỏ hơn ${bien2}`;    }   }  }
             else {
 
                 return `${bien} không được phép rỗng`
             }
         }
         return null;
-
     }
     useEffect(() => {
         validatorFunction.isYear(year) &&
@@ -89,7 +67,7 @@ const DateInput = (props) => {
         [date, month, year])
     useEffect(() => {
         if (dateTime) {
-            if (DateExist(dateTime).length==0) {
+            if (DateExist(dateTime).length == 0) {
 
                 inputProps.setDate(dateTime)
                 setTest()
@@ -107,9 +85,9 @@ const DateInput = (props) => {
 
                 <input
                     className={!isDateValid(date, 1, 31, ngay, 1) ? "TEXTDATE date1" : "TEXTDATE date1 dataInvalid"}
-                    onChange={(e) => { setDate(e.target.value) }}
+                    onChange={(e) => { setDateValue(e.target.value) }}
                     onBlur={handleFocus}
-                    pattern="^(0|[1-9]|[12]\d|30|31)$"
+                    pattern="^(0?[1-9]|1\d|2\d|3[0-1])$"
                     value={date}
 
                     focused={focused.toString()}
@@ -118,9 +96,9 @@ const DateInput = (props) => {
                 />
                 <input
                     className={!isDateValid(month, 1, 12, thang, 2) ? "TEXTDATE date1" : "TEXTDATE date1 dataInvalid"}
-                    onChange={(e) => { setMonth(e.target.value) }}
+                    onChange={(e) => { setMonthValue(e.target.value) }}
                     onBlur={handleFocus}
-                    pattern="^(1[0-2]|[1-9])$"
+                    pattern="^(0?[1-9]|1[0-2])$"
 
                     value={month}
 
@@ -130,9 +108,8 @@ const DateInput = (props) => {
                 />
                 <input
                     className={!isDateValid(year, 1000, 9999, nam, 3) ? "TEXTDATE date1" : "TEXTDATE date1 dataInvalid"}
-                    onChange={(e) => { setYear(e.target.value) }}
+                    onChange={(e) => { setYearValue(e.target.value) }}
                     onBlur={handleFocus}
-                    // pattern="^(1[0-2]|[1-9])$"
                     value={year}
                     focused={focused.toString()}
                     placeholder="Năm"
@@ -140,9 +117,9 @@ const DateInput = (props) => {
                 />
             </div>
 
-            <span className={isDateValid(date, 1, 31, ngay, 1) ? "Invalid" : ""}>{isDateValid(date, 1, 31, ngay, 1)}</span>
-            <span className={isDateValid(month, 1, 12, thang, 2) ? "Invalid" : ""}>{isDateValid(month, 1, 12, thang, 2)}</span>
-            <span className={isDateValid(year, 1000, 9999, nam, 3) ? "Invalid" : ""}>{isDateValid(year, 1000, 9999, nam, 3)}</span>
+            <span className={isDateValid(date, 1, 31, ngay, 1) ? "Invalid" : ""}>{isDateValid(date, 1, 31, ngay)}</span>
+            <span className={isDateValid(month, 1, 12, thang, 2) ? "Invalid" : ""}>{isDateValid(month, 1, 12, thang)}</span>
+            <span className={isDateValid(year, 1000, 9999, nam, 3) ? "Invalid" : ""}>{isDateValid(year, 1000, 9999, nam)}</span>
             <span className={DateExist(dateTime) ? "Invalid" : ""}>{DateExist(dateTime)}</span>
 
         </div>

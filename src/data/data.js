@@ -80,7 +80,7 @@ export const inputs = [
         name: "Email",
         type: "email",
         placeholder: "Email",
-        label: "Email",
+        label: "Email",   
         required: true,
         value: "", // Giá trị mặc định
     },
@@ -253,16 +253,12 @@ export const HopDongInput = [
         required: true,
         value: "", // Giá trị mặc định
     },
-
-
-
-
     {
         id: 3,
         name: "LoaiHopDong",
         type: "text",
         placeholder: "Loại hợp đồng",
-        label: "Số CCCD",
+        label: "Loại hợp đồng",
         required: true,
         value: "", // Giá trị mặc định
         length: "10"
@@ -390,7 +386,7 @@ export const links = [
         role: 2
     },
     {
-        name: "Thêm hợp đồng",
+        name: "Quản lý hợp đồng",
         hash: "/hopdong",
         role: 1
     }

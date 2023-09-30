@@ -7,8 +7,12 @@ import FormInput from "../FormInput/FormInput"
 import { ConfirmDialog } from "../confirmComponent/confirm";
 import { ResizeImg } from "../../function/ResizeImg";
 import blobToBuffer from "../../function/BlobtoBuffer";
-export default function ChangeUser() {
+import useToken from "../../hook/useToken";
+import { format } from 'date-fns';
+
+export default function ChangeUser(props) {
     let { userID } = useParams();
+    const { Token } = useToken()
     const fileInputRef = useRef()
     const [userInfo, setUserInfo] = useState()
     const [avatarURL, setAvatarURL] = useState();
@@ -33,21 +37,23 @@ export default function ChangeUser() {
 
             })
             const data = await res.json();
-            console.log(data)
+            setMesRes(data.message)
+            setConFirmSubmit(false)
+            setConfirm(false)
+
         } catch (error) {
             console.log(error)
         }
-
     }
     const getUser = async () => {
+        const URL = props.userID ? `${process.env.REACT_APP_API_HOST}/api/getUserByMaNV/${props.userID}` : `${process.env.REACT_APP_API_HOST}/api/getUserByMaNV/${userID}`
         try {
-            const res = await fetch(`${process.env.REACT_APP_API_HOST}/api/getUserByMaNV/${userID}`)
+            const res = await fetch(URL)
             const data = await res.json()
-            setUserInfo(data)
+            setUserInfo({ ...data, NgaySinh: format(new Date(data.NgaySinh), 'yyyy/MM/dd'), NgayNhanChuc: format(new Date(data.NgayNhanChuc), 'yyyy/MM/dd') })
         } catch (error) {
             console.log(error)
         }
-
     }
     useEffect(() => {
         getUser()
@@ -64,6 +70,13 @@ export default function ChangeUser() {
 
         // window.location.reload()
     }
+    const [messRes, setMesRes] = useState("");
+    useEffect(() => {
+        messRes && setTimeout(() => {
+            setMesRes(null)
+        }, 1000)
+    }, [messRes])
+    useEffect(() => { console.log(userInfo) }, [userInfo])
     const onSubmit = (e) => {
         e.preventDefault();
         setConfirm(true)
@@ -103,6 +116,11 @@ export default function ChangeUser() {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
         setIsChanged(false)
     }
+
+    const setDate = (dateTime) => {
+        setUserInfo({ ...userInfo, [Object.keys(dateTime)]: Object.values(dateTime)[0] });
+        setIsChanged(false)
+    }
     return (
         <>
             {
@@ -118,14 +136,20 @@ export default function ChangeUser() {
 
                                     (input.inputcac !== "date" ? <FormInput
                                         {...input}
+                                        key={input.id}
+
                                         value={userInfo[input.name]}
                                         onChange={onChange}
+
+                                        readOnly={Token.Role === 2}
                                     >
                                     </FormInput> :
                                         <DateInput
                                             key={input.id}
                                             {...input}
                                             value={userInfo[input.name]}
+                                            setDate={setDate}
+                                            readOnly={Token.Role === 2}
                                         // onChange={onChange}
                                         ></DateInput>
                                     )
@@ -139,51 +163,57 @@ export default function ChangeUser() {
 
                                     (input.inputcac !== "date" ? <FormInput
                                         {...input}
+                                        key={input.id}
+
                                         value={userInfo[input.name]}
                                         onChange={onChange}
+                                        readOnly={Token.Role === 2}
+
                                     >
                                     </FormInput> :
                                         <DateInput
                                             key={input.id}
                                             {...input}
                                             value={userInfo[input.name]}
-                                        // onChange={onChange}
+                                            setDate={setDate}
+                                            readOnly={Token.Role === 2}
                                         ></DateInput>
                                     )
                                 ))
                                 }
-                                <div className="formInput">
+                                <div className="formInput select_column">
                                     {inputs.map((input, index) => (
                                         index >= 8 &&
-                                        < >
-                                            <label htmlFor={input.name}>{input.label}:</label>
-                                            <select className="select" name={input.name} onChange={onChange} value={userInfo[input.name]}>
-                                                <option selected disabled>Chọn Giá Trị</option>
-                                                {
-                                                    input.value.map((element, i) =>
-                                                    (
+                                        <div key={input.id }
+                                        style={{margin:"5px"}}
+                                        >
+                                            <label style={{ color: "black" }} htmlFor={input.name}>{input.label}:     </label>
 
-
-                                                        <option value={element}>{element}</option>
-                                                    ))
-                                                }
-                                            </select>
-
-                                        </>
+                                                <select className="select" name={input.name} onChange={onChange} value={userInfo[input.name]}>
+                                                    <option disabled value={""} selected>Chọn Giá Trị</option>
+                                                    {
+                                                        input.value.map((element, i) =>
+                                                        (
+                                                            <option key={i}
+                                                                value={element}>{element}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                        </div>
 
                                     ))}
                                 </div>
                             </div>
                             <div className="avatar_field"
-                                style={{ height: "200px",margin:"20px" }}
+                                style={{ margin: "20px" }}
                             >
-                                <button
-                                    style={{ margin: "20px",backgroundColor:"blue",color:"white" }}
+                                <span
+                                    className="spanLikeLogOut"
                                     type="button"
                                     onClick={() => { fileInputRef.current.click() }}
                                 >
                                     Chọn ảnh
-                                </button>
+                                </span>
                                 <input
                                     type="file"
                                     onChange={imgInput}
@@ -195,7 +225,7 @@ export default function ChangeUser() {
                                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
                                 {
-                                    <div style={{backgroundColor:"gray",borderRadius:"20px"}}>
+                                    <div style={{ backgroundColor: "gray", borderRadius: "20px" }}>
 
                                         <img className="avatarImage"
                                             src={avatarURL ? avatarURL : blobtoBase64(userInfo.Image)} style={{ backgroundColor: "black", margin: "20px", width: "150px", height: "200px" }} alt="Avatar"></img>
@@ -205,7 +235,10 @@ export default function ChangeUser() {
                             </div>
 
                         </div>
-                        <input type="submit" className="submit_Button" disabled={isChanged} ></input>
+                        {
+
+                            Token.Role == 1 && <input type="submit" className="submit_Button" disabled={isChanged} ></input>
+                        }
                     </form>
 
                 </div>
@@ -217,6 +250,16 @@ export default function ChangeUser() {
                     onConfirm={confirmSubmit}
                     onCancel={onCancel}
                 />
+            )}
+            {messRes && (
+                <div className="confirm-dialog noti">
+                    <div className='confirm_layout'>
+                        <p>
+                            {messRes}
+                        </p>
+                    </div>
+                </div>
+
             )}
         </>
     )

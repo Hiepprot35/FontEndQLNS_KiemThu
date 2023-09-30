@@ -43,7 +43,7 @@ export default function Login() {
   }, [getSubmit])
   const SubmitData = (e) => {
     e.preventDefault()
-    setSubmit(true)
+    setSubmit(!getSubmit)
     // console.log("cac")
   }
   return (

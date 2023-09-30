@@ -9,15 +9,14 @@ import { ResizeImg } from "../../function/ResizeImg";
 import DateExist from "../../function/DateExist";
 import validatorFunction from "../../function/validator";
 import blobToBuffer from "../../function/BlobtoBuffer";
-export default function CreateUser() {
-    document.title ="Create User"
+import useToken from "../../hook/useToken";
+export default function CreateUser(props) {
+    document.title = "Create User"
+    const { Token } = useToken()
     const [avatarURL, setAvatarURL] = useState();
     const [errorMessage, setErrorMessage] = useState("");
     const fileInputRef = useRef(null)
     const [BufferImgInput, setBufferImgInput] = useState("")
-    const [ngaySinh,setNgaySinh]=useState()
-    const [ngayNhanChuc,setNgayNhanChuc]=useState()
-
     const [values, setValues] = useState({
         HoVaTen: "Đoàn Văn A",
         GioiTinh: "Nam",
@@ -84,7 +83,7 @@ export default function CreateUser() {
             const data = await res.json();
             setMesRes(data.message)
             setComfirm(false)
-                } catch (error) {
+        } catch (error) {
             console.log(error)
         }
 
@@ -115,7 +114,6 @@ export default function CreateUser() {
     }, [messRes])
     return (
         <div>
-
             <form onSubmit={(e) => onSubmit(e)} >
                 <div className="container create_container" >
 
@@ -158,8 +156,6 @@ export default function CreateUser() {
                                     onChange={onChange}
                                 />
                             )
-
-
                         ))}
                         <div className="formInput">
                             {inputs.map((input, index) => (
@@ -171,18 +167,13 @@ export default function CreateUser() {
                                         {
                                             input.value.map((element, i) =>
                                             (
-
-
                                                 <option value={element}>{element}</option>
                                             ))
                                         }
                                     </select>
-
                                 </>
-
                             ))}
                         </div>
-
                     </div>
                     <div className="avatar_field"
                         style={{ height: "200px" }}
@@ -190,7 +181,6 @@ export default function CreateUser() {
                         <button
                             type="button"
                             onClick={() => { fileInputRef.current.click() }}
-
                         >
                             Chọn ảnh
                         </button>
@@ -204,13 +194,14 @@ export default function CreateUser() {
                         >
                         </input>
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
                         {avatarURL && <img className="avatarImage" src={avatarURL} style={{ width: "100px", height: "100px" }} alt="Avatar"></img>
                         }
-
                     </div>
                 </div>
+
                 <input type="submit" ></input>
+
+
             </form>
             {getConfirm && (
                 <ConfirmDialog
@@ -219,12 +210,11 @@ export default function CreateUser() {
                     onCancel={onCancel}
                 />
             )}
-             {messRes && (
+            {messRes && (
                 <div className="confirm-dialog noti">
                     <div className='confirm_layout'>
                         <p>
                             {messRes}
-
                         </p>
                     </div>
                 </div>

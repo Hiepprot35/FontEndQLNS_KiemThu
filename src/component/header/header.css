@@ -1,6 +1,9 @@
+:root {
+    --header_hight: 7vh
+}
+
 body {
     background-image: linear-gradient(to right, rgb(200, 204, 170), rgb(240, 226, 181));
-
 }
 
 .Propage {
@@ -26,7 +29,7 @@ body {
     padding: 0.4rem;
     margin: 1rem;
     border-radius: 0.3rem;
-    transition: 125ms ;
+    transition: 125ms;
 }
 
 .Header_homepage li a:hover {
@@ -46,6 +49,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 .Header_homepage ul li:hover {
     /* Đặt chiều rộng tối đa cho mỗi phần tử li */
     font-weight: 600;
@@ -64,7 +68,7 @@ header {
     top: 1rem;
     left: 20vw;
     right: 20vw;
-    height: 7vh;
+    height: var(--header_hight);
     border-radius: 2rem;
     background-color: rgba(255, 255, 255, 0.733);
     z-index: 999;
@@ -188,20 +192,22 @@ a.Instagram:hover {
     transform: translateY(-0.3rem) translateX(-0.3rem) scale(1.04) rotate(-2deg);
     /* Bạn có thể điều chỉnh góc quay theo nhu cầu */
 }
-.project_content:hover
-{
+
+.project_content:hover {
     background-color: #d0c6c674;
 
 }
-.project_content:hover img{
+
+.project_content:hover img {
     /* Bạn có thể điều chỉnh góc quay theo nhu cầu */
     transform: translateY(-0.3rem) translateX(-0.3rem) scale(1.04) rotate(-2deg);
 
 }
-.Header_homepage ul
-{
+
+.Header_homepage ul {
     display: flex;
 }
+
 .project_content h3 {
     font-size: 2rem;
 }
@@ -220,4 +226,34 @@ a.Instagram:hover {
 
 .project_text {
     max-width: 50%;
+}
+
+.left-header {
+    align-items: center;
+    display: flex;
+}
+
+.spanLikeLogOut  {
+    display: inline;
+    background-color: white;
+    color: black;
+    margin: 10px 40px 10px 20px;
+    width: 120px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 4px;
+    transition: 200ms ease;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.spanLikeLogOut:hover {
+    background-color: black;
+    color: white;
+}
+
+.Avatar {
+    height: calc(0.8 * var(--header_hight));
+    border-radius: 50%;
 }

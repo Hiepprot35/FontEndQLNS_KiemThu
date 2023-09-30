@@ -1,25 +1,33 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
-import clsx from "clsx";
 import './header.css'
 import useToken from "../../hook/useToken";
+import validatorFunction from "../../function/validator";
+import blobtoBase64 from "../../function/BlobtoBase64";
 import { links } from '../../data/data'
-import { click } from "@testing-library/user-event/dist/click";
-// import { useActiveSectionContext } from "../../context/ActiveSectionContextProvider";
 export default function Header() {
     const navigate=useNavigate()
+    const [user,setUser]=useState();
     const logOut = () => {
         localStorage.clear()
         window.location.reload()
         navigate("/")
+        // window.location.href = "/"; // Điều hướng đến trang chính (hoặc trang khác)
+
     }
-
-
+    const getUser = async () => {
+        const URL = validatorFunction.isNumeric(Token.Username) &&`${process.env.REACT_APP_API_HOST}/api/getUserByMaNV/${Token.Username}`
+        try {
+            const res = await fetch(URL)
+            const data = await res.json()
+            setUser(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const { Token } = useToken()
-    const [clicked, setClicked] = useState()
-    useEffect(() => { console.log(Token) }, [])
+    useEffect(() => {getUser()}, [])
     return (
         <header>
             <motion.div
@@ -35,7 +43,7 @@ export default function Header() {
 
                             >
                                 <motion.a
-                                    smooth={true} duration={500}
+                                     duration={500}
                                     offset={-100}
                                     href={link.hash}
                                 >
@@ -58,7 +66,14 @@ export default function Header() {
                         ))}
                     </ul>
                 </nav>
-                <button style={{backgroundColor:"grey"}} onClick={() => logOut()}>Log out</button>
+                <div className="left-header">
+                    <p>Hello {user? user.HoVaTen:"admin"}</p>
+                    {
+                     Token.Username!="admin"&&   <img className="Avatar" src={user&&blobtoBase64(user.Image)} alt="Avatar User"></img>
+                    }
+                        
+                <span className="spanLikeLogOut" onClick={() => logOut()}>Log out</span>
+                </div>
             </motion.div>
         </header>
     );
